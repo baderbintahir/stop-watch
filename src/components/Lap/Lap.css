@@ -1,0 +1,16 @@
+.lap span {
+    font-size: 2rem;
+    padding: 0 5%;
+}
+
+.pause{
+    color: #d1728a;
+}
+
+.split{
+    color: #f29e25;
+}
+
+.lap-type{
+    text-transform: capitalize;
+}

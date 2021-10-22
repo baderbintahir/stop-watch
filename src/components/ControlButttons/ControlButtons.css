@@ -1,0 +1,32 @@
+.control-btn {
+    margin: 0.3125rem;
+    width: 6.25rem;
+    height: 6.25rem;
+    border-radius: 50%;
+    border: 1px solid black;
+    background: none;
+    color: white;
+}
+
+.control-btn:hover{
+    cursor: pointer;
+}
+
+.control-btn:disabled{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: auto;
+}
+
+.start-btn{
+    background: #17a69d;
+}
+
+.split-btn{
+    background: #f29e25;
+}
+
+.reset-btn{
+    background: #4387d0;
+}
