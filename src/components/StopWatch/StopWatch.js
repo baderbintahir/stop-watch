@@ -4,20 +4,30 @@ import Lap from '../Lap/Lap';
 import Timer from '../Timer/Timer';
 import './StopWatch.css';
 
+const initialBtnCondition = {
+    isStart: false, 
+    isPause: false
+}
+
+const initialTimes = {
+    mainTime: 0, 
+    splitTime: 0
+}
+
 function StopWatch() {
-    const [isStart, setIsStart] = useState(false)
-    const [isPause, setIsPause] = useState(false)
-    const [time, setTime] = useState(0)
-    const [splitTime, setSplitTime] = useState(0)
+    const [btnCondition, setBtnCondition] = useState(initialBtnCondition)
+    const [times, setTimes] = useState(initialTimes)
     const [laps, setLaps] = useState([])
 
     useEffect(() => {
         let timeInterval = null
 
-        if (isStart) {
+        if (btnCondition.isStart) {
             timeInterval = setInterval(() => {
-                setTime((time) => time + 10)
-                setSplitTime((splitTime) => splitTime + 10)
+                setTimes(prevState => ({
+                    mainTime: prevState.mainTime + 10,
+                    splitTime: prevState.splitTime + 10
+                }))
             }, 10)
         } else {
             clearInterval(timeInterval)
@@ -27,25 +37,34 @@ function StopWatch() {
             clearInterval(timeInterval);
         }
 
-    }, [isStart, time, splitTime])
+    }, [btnCondition.isStart, times])
 
     const addLap = lapType => {
         setLaps([...laps, {
             srNo: laps.length + 1,
-            timeInstance: time,
+            timeInstance: times.mainTime,
             type: lapType
         }])
     }
 
     const handleStart = () => {
-        setIsStart(!isStart)
+        setBtnCondition(prevState => ({
+            ...prevState,
+            isStart: !prevState.isStart
+        }))
 
-        if (time) {
-            setIsPause(!isPause)
+        if (times.mainTime) {
+            setBtnCondition(prevState => ({
+                ...prevState,
+                isPause: !prevState.isPause
+            }))
 
-            if (!isPause) {
+            if (!btnCondition.isPause) {
                 addLap('pause')
-                setSplitTime(0)
+                setTimes(prevState => ({
+                    ...prevState,
+                    splitTime: 0
+                }))
             }
         }
 
@@ -53,14 +72,15 @@ function StopWatch() {
 
     const handleSplit = () => {
         addLap('split')
-        setSplitTime(0)
+        setTimes(prevState => ({
+            ...prevState,
+            splitTime: 0
+        }))
     }
 
     const handleReset = () => {
-        setIsStart(false)
-        setIsPause(false)
-        setTime(0)
-        setSplitTime(0)
+        setBtnCondition(initialBtnCondition)
+        setTimes(initialTimes)
         setLaps([])
     }
 
@@ -68,15 +88,15 @@ function StopWatch() {
         <div className="stop-watch">
             <Timer 
                 className="main-timer"
-                time={time}
+                time={times.mainTime}
             />
             <Timer 
                 className="split-time"
-                time={splitTime}
+                time={times.splitTime}
             />
             <ControlButtons
-                isStart={isStart}
-                isPause={isPause}
+                isStart={btnCondition.isStart}
+                isPause={btnCondition.isPause}
                 handleStart={handleStart}
                 handleSplit={handleSplit}
                 handleReset={handleReset}
