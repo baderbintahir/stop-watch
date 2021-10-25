@@ -1,6 +1,10 @@
-.lap span {
+.lap{
+    display: flex;
+}
+
+.lap > span {
     font-size: 2rem;
-    padding: 0 5%;
+    padding: 0 10%;
 }
 
 .pause{
